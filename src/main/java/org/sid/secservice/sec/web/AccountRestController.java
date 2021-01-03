@@ -87,6 +87,7 @@ public class AccountRestController {
         }
     }
     @GetMapping(path = "/profile")
+    @PostAuthorize("hasAnyAuthority('USER')")
     public AppUser profile(Principal principal){
         return accountService.loadUserByUsername(principal.getName());
     }

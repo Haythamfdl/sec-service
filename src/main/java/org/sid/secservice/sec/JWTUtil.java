@@ -4,6 +4,6 @@ public class JWTUtil {
     public static final String SECRET = "mySecret1234";
     public static final String AUTH_HEADER = "Authorization";
     public static final String PREFIX = "Bearer ";
-    public static final long EXPIRE_ACCESS_TOKEN = 2*6*1000;
+    public static final long EXPIRE_ACCESS_TOKEN = 5*6*1000;
     public static final long EXPIRE_REFRESH_TOKEN = 15*6*1000;
 }
