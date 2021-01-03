@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.sid.secservice.sec.JWTUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,11 +26,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
         }
         else {
-            String authorisationToken =request.getHeader("Authorization");
-            if(authorisationToken!=null && authorisationToken.startsWith("Bearer ")){
+            String authorisationToken =request.getHeader(JWTUtil.AUTH_HEADER);
+            if(authorisationToken!=null && authorisationToken.startsWith(JWTUtil.PREFIX)){
                 try {
-                    String jwt=authorisationToken.substring(7);
-                    Algorithm algorithm =Algorithm.HMAC256("mySecret1234");
+                    String jwt=authorisationToken.substring(JWTUtil.PREFIX.length());
+                    Algorithm algorithm =Algorithm.HMAC256(JWTUtil.SECRET);
                     JWTVerifier jwtVerifier= JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
                     String username= decodedJWT.getSubject();
